@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+	<display-name>geinvoice</display-name>
+	 <!--
+	 
+	 -->
+	<filter>
+	 <filter-name>Agent</filter-name>
+	 <display-name>Agent</display-name>
+	 <description>OpenAM Policy Agent Filter</description>
+	 <filter-class>com.sun.identity.agents.filter.AmAgentFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		 <filter-name>Agent</filter-name>
+		 <url-pattern>/*</url-pattern>
+		 <dispatcher>REQUEST</dispatcher>
+		 <dispatcher>INCLUDE</dispatcher>
+		 <dispatcher>FORWARD</dispatcher>
+		 <dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+	
+	<servlet>
+		<servlet-name>UploadFileServlet</servlet-name>
+		<servlet-class>vn.gmobile.einvoice.web.UploadFileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadFileServlet</servlet-name>
+		<url-pattern>/uploadfile</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ActionServlet</servlet-name>
+		<servlet-class>vn.gmobile.einvoice.web.ActionServlet</servlet-class>
+
+		<!-- USER LOGIN INFO -->
+		<init-param>
+			<param-name>/userLoginInfoGet</param-name>
+			<param-value>vn.gmobile.einvoice.message.UserLoginInfoGetRequest</param-value>
+		</init-param>
+
+		<!-- FILE PREVIEW -->
+		<init-param>
+			<param-name>/filepreview</param-name>
+			<param-value>vn.gmobile.einvoice.message.FilePreviewRequest</param-value>
+		</init-param>
+
+		<!-- INVOICE AGENCY -->
+		<init-param>
+			<param-name>/invoiceagencyget</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceAgencyGetRequest</param-value>
+		</init-param>
+
+		<!-- INVOICE -->
+		<init-param>
+			<param-name>/invoicefilegetrequest</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceFileGetRequest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>/invoicebatchupdate</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceBatchUpdateRequest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>/invoicebatchget</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceBatchGetRequest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>/invoicegenerate</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceGenerateRequest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>/invoiceupdate</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceUpdateRequest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>/invoicedetailstatusget</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceDetailStatusGetRequest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>/invoicedetailget</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceDetailGetRequest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>/invoiceconversion</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceConversionRequest</param-value>
+		</init-param>
+
+		<!-- DATA LOAD -->
+		<init-param>
+			<param-name>/dataloadupdate</param-name>
+			<param-value>vn.gmobile.einvoice.message.DataLoadUpdateRequest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>/dataloadget</param-name>
+			<param-value>vn.gmobile.einvoice.message.DataLoadGetRequest</param-value>
+		</init-param>
+		
+		<!-- REPORT -->
+		<init-param>
+			<param-name>/invoicerevenuereport</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceRevenueReportRequest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>/invoiceusagereport</param-name>
+			<param-value>vn.gmobile.einvoice.message.InvoiceUsageReportRequest</param-value>
+		</init-param>
+		
+		<!-- SERIAL -->
+		<init-param>
+			<param-name>/serialget</param-name>
+			<param-value>vn.gmobile.einvoice.message.SerialGetRequest</param-value>
+		</init-param>
+
+	</servlet>
+	<!-- ********************************************************************************************************* -->
+	<!-- SERVERLET MAPPING -->
+
+	<!-- USER LOGIN INFO -->
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/userLoginInfoGet</url-pattern>
+	</servlet-mapping>
+
+	<!-- FILE PREVIEW -->
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/filepreview</url-pattern>
+	</servlet-mapping>
+
+	<!-- INVOICE AGENCY -->
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoiceagencyget</url-pattern>
+	</servlet-mapping>
+
+	<!-- INVOICE -->
+	
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoicefilegetrequest</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoicebatchupdate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoicebatchget</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoicegenerate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoiceupdate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoicedetailstatusget</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoicedetailget</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoiceconversion</url-pattern>
+	</servlet-mapping>
+
+	<!-- DATA LOAD -->
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/dataloadupdate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/dataloadget</url-pattern>
+	</servlet-mapping>
+	
+	<!-- REPORT -->
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoicerevenuereport</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/invoiceusagereport</url-pattern>
+	</servlet-mapping>
+	
+	<!-- SERIAL -->
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>/serialget</url-pattern>
+	</servlet-mapping>
+
+</web-app>

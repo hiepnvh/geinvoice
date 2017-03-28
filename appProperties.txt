@@ -1,0 +1,6 @@
+#working_path=/root/apache-tomcat-6.0.36/webapps/gchargenot/files/genxlsscripts
+#working_path=/root/genxlsscripts
+
+working_path=D:/Work/Test/ExportXLS
+template_file=input.xls
+ri_template_file=RedInvoiceTemplate.xls

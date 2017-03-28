@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="_jyOvcCegEeaAcIKufeSgmg" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="camunda modeler" exporterVersion="3.0.0" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:collaboration id="Collaboration_1wtzds3">
+    <bpmn2:participant id="Participant_1147oif" name="Invoice Generate" processRef="invoice-generate" />
+  </bpmn2:collaboration>
+  <bpmn2:process id="invoice-generate" name="Invoice Generate" isExecutable="true">
+    <bpmn2:sequenceFlow id="SequenceFlow_062t3fz" sourceRef="StartEvent_1euuqhb" targetRef="IntermediateCatchEvent_1n1y3ik" />
+    <bpmn2:endEvent id="EndEvent_1i0yfx7" name="Finish">
+      <bpmn2:incoming>SequenceFlow_0m7u8c4</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sendTask id="SendTask_1fywm44" name="Send email result when done!" camunda:class="vn.gmobile.einvoice.delegate.NotifyByEmail">
+      <bpmn2:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="from">invoice-noreply@gmobile.vn</camunda:inputParameter>
+          <camunda:inputParameter name="subject">Thông báo: Kết quả tạo hóa đơn</camunda:inputParameter>
+          <camunda:inputParameter name="content">
+            <camunda:script scriptFormat="freemarker"><![CDATA[Hóa đơn của a/c  <b> ${execution.getVariable("username")}. </b> đã được tạo xong. <br><br>
+Số lượng hóa đơn tạo thành công: <b> ${execution.getVariable("quantity")}. </b> <br><br>
+Xin cảm ơn! <br>]]></camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_1ahpt6m</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_0m7u8c4</bpmn2:outgoing>
+    </bpmn2:sendTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_0m7u8c4" sourceRef="SendTask_1fywm44" targetRef="EndEvent_1i0yfx7" />
+    <bpmn2:sequenceFlow id="SequenceFlow_1ahpt6m" sourceRef="ServiceTask_0y34giu" targetRef="SendTask_1fywm44" />
+    <bpmn2:sequenceFlow id="SequenceFlow_07xre80" sourceRef="IntermediateCatchEvent_1n1y3ik" targetRef="ServiceTask_0y34giu" />
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1n1y3ik" name="Prepare for Running">
+      <bpmn2:incoming>SequenceFlow_062t3fz</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_07xre80</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration xsi:type="bpmn2:tFormalExpression">PT1S</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:startEvent id="StartEvent_1euuqhb" name="Start">
+      <bpmn2:outgoing>SequenceFlow_062t3fz</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:serviceTask id="ServiceTask_0y34giu" name="Mapping Data &#38; Generate Xml Files" camunda:class="vn.gmobile.einvoice.delegate.InvoiceGenerating">
+      <bpmn2:incoming>SequenceFlow_07xre80</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1ahpt6m</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1wtzds3">
+      <bpmndi:BPMNShape id="Participant_1147oif_di" bpmnElement="Participant_1147oif" isHorizontal="false">
+        <dc:Bounds x="0" y="57" width="584" height="144" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1i0yfx7_di" bpmnElement="EndEvent_1i0yfx7">
+        <dc:Bounds x="509" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="482" y="139" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0m7u8c4_di" bpmnElement="SequenceFlow_0m7u8c4">
+        <di:waypoint xsi:type="dc:Point" x="474" y="121" />
+        <di:waypoint xsi:type="dc:Point" x="509" y="121" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="658" y="111" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ahpt6m_di" bpmnElement="SequenceFlow_1ahpt6m">
+        <di:waypoint xsi:type="dc:Point" x="321" y="121" />
+        <di:waypoint xsi:type="dc:Point" x="374" y="121" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="414" y="111" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_062t3fz_di" bpmnElement="SequenceFlow_062t3fz">
+        <di:waypoint xsi:type="dc:Point" x="82" y="121" />
+        <di:waypoint xsi:type="dc:Point" x="130" y="121" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="68" y="111" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0y34giu_di" bpmnElement="ServiceTask_0y34giu">
+        <dc:Bounds x="221" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_1fywm44_di" bpmnElement="SendTask_1fywm44">
+        <dc:Bounds x="374" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_07xre80_di" bpmnElement="SequenceFlow_07xre80">
+        <di:waypoint xsi:type="dc:Point" x="166" y="121" />
+        <di:waypoint xsi:type="dc:Point" x="221" y="121" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="148" y="111" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_1n1y3ik_di" bpmnElement="IntermediateCatchEvent_1n1y3ik">
+        <dc:Bounds x="130" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="103" y="139" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1euuqhb_di" bpmnElement="StartEvent_1euuqhb">
+        <dc:Bounds x="46" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="19" y="139" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
